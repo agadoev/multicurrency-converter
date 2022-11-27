@@ -92,6 +92,12 @@ $selectedCurrencies
   .on(currencySelected,
     (already, justNow) => addOrRemove<Currency>(already, justNow))
 
+sample({
+  clock: currencySelected,
+  source: $selectedCurrencies,
+  target: saveToLocalStorageFx
+})
+
 // OK
 sample({
   clock: confirmClicked,
