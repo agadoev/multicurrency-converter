@@ -1,10 +1,10 @@
 <template>
 
-  <ToolbarComponent />
+  <ToolbarComponent class="mb50" />
 
   <div class="row mb10">
     <span style="text-align: center;">
-      Выберите валюты, в которых вы хотите считать свои деньги
+      Выберите минимум 2 валюты, в которых вы хотите считать свои деньги.
     </span>
   </div>
 
@@ -12,8 +12,8 @@
     <input type="search" @input="handleSearchInput">
   </div>
 
-  <div class="row mb50">
-    <ScrollableList :direction="'horizontal'" :height="'60px'">
+  <div class="row mb10">
+    <ScrollableList :direction="'horizontal'" :height="'auto'">
       <li v-for="chip in selected">
         <Chip :text="chip" @action="() => currencySelected(chip)" />
       </li>
@@ -62,9 +62,7 @@ const all = useStore($currencies)
 const selected = useStore($selectedCurrencies)
 const search = ref<string>("")
 
-const getClassIconName = (currency: Currency) => `currency-flag-${currency.toLowerCase()}`
-
-const confirmDisabled = computed(() => selected.value.length == 0)
+const confirmDisabled = computed(() => selected.value.length < 2)
 
 const handleSearchInput = (event: Event) => {
   // @ts-ignore

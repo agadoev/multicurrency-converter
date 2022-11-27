@@ -20,6 +20,10 @@ const props = defineProps<{
   padding: 0;
   box-sizing: border-box;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   &.vertical {
     overflow-y: scroll;
 

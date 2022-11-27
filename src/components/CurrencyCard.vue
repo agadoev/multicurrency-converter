@@ -25,7 +25,9 @@ const emit = defineEmits<{
 
 <style scoped lang="scss">
 .card {
-  width: 100px;
+  width: 199px;
+  padding: 10px 20px;
+  border-radius: 23px;
 
   &.clickable {
     cursor: pointer;
@@ -33,6 +35,7 @@ const emit = defineEmits<{
 
   &.selected {
     border: 1px solid #6666CC;
+    color: #6666CC;
   }
 
   &.hoverable {
