@@ -193,7 +193,7 @@ async function getRates(): Promise<Record<Currency, Rate>> {
     // });
     // const data = await response.json() as TResponse; 
     // return data.rates;
-    await wait()
+    // await wait()
 
     return MockRates
 }

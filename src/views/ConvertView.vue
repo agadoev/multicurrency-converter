@@ -1,22 +1,25 @@
 <template>
+
+  <ToolbarComponent /> 
+
   <main>
-    <label for="">EUR</label>
-    <input v-model="state.eur" type="text">
-
+    <!-- <label for="">EUR</label> -->
+    <!-- <input v-model="state.eur" type="text"> -->
     <br>
     <br>
 
-    <span v-for="[currency, rate] of Object.entries(rates)" v-bind:key="currency">
+    <div class="currency-input-wrapper" v-for="[currency, rate] of Object.entries(rates)" v-bind:key="currency">
+      <div class="currency-flag" :class="{['currency-flag-' + currency.toLowerCase()]: true}"></div>
       <label for="">{{ currency }}</label>
       <input v-amount :value="state.eur * rate" type="number" @change="(ev) => rateChanged(ev, rate)">
-    </span>
+    </div >
 
   </main>
 </template>
 
 <script setup lang="ts">
+import ToolbarComponent from '@/components/ToolbarComponent.vue'
 import { reactive, onBeforeMount } from 'vue';
-import type { Currency, Rate } from '@/getRates';
 
 import { convertPageOpened, $selectedRates, getRatesFx } from '@/logic'
 import { useStore } from 'effector-vue/composition';
@@ -29,15 +32,9 @@ const rates = useStore($selectedRates)
 
 const state = reactive<{
   eur: number,
-  rates: Record<Currency, Rate> | {}
 }>({
   eur: 1,
-  rates: {}
 });
-
-// const rates = useStore<Record<Currency, Rate> | {}>($selectedRates)
-
-// type CurrencyFn = (baseCurreny: number) => number
 
 const rateChanged = (event: Event, coef: number) => {
   const amount = Number((event.target as HTMLInputElement).value);
@@ -45,3 +42,59 @@ const rateChanged = (event: Event, coef: number) => {
 }
 </script>
 
+<style scoped lang="scss">
+.currency-input-wrapper {
+
+  .currency-flag {
+    margin-right: 5px;
+  }
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 20px;
+
+  label {
+    margin-right: 5px;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+      /* display: none; <- Crashes Chrome on hover */
+      -webkit-appearance: none;
+      margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  }
+
+  input[type=number] {
+      -moz-appearance:textfield; /* Firefox */
+  }
+
+  input {
+    padding: 1px;
+    border: 1px solid #dadce0;
+    caret-color: #1a73e8;
+    color: #70757a;
+    border-radius: 6px;
+    -webkit-appearance: none;
+
+    background-color: #fff;
+    margin: 0;
+    overflow: hidden;
+    text-align: left;
+    line-height: 24px;
+    -moz-appearance: textfield;
+    padding: 1px 6px 1px 12px;
+    font-size: 16px;
+    font-family: arial,sans-serif;
+    height: 40px;
+    width: 150px;
+    color: #4d5156;
+
+    &:hover {
+      border: 1px solid black;   
+    }
+  }
+
+} 
+</style>

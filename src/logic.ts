@@ -57,6 +57,8 @@ export const convertPageOpened = createEvent<Currency[]>();
 
 export const confirmClicked = createEvent();
 
+export const userComes = createEvent();
+
 
 /* effects */
 export const getRatesFx = createEffect<void, Record<Currency, number>>(async () => {
