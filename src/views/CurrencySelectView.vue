@@ -13,32 +13,31 @@
   </div>
 
   <div class="row mb50">
-    <ul class="chips">
+    <ScrollableList :direction="'horizontal'" :height="'60px'">
       <li v-for="chip in selected">
-        <CloseIcon @click="() => currencySelected(chip)" />   
-        {{ chip }}
-      </li> 
-    </ul>  
-  </div>
-
-  <div class="wrapper mb10">
-    <ul class="currencies">
-      <li
-        v-for="currency in allFiltered"
-        :class="{selected: selected.includes(currency)}"
-        @click="() => currencySelected(currency)">
-        <div class="currency-flag" :class="{['currency-flag-' + currency.toLowerCase()]: true}"></div>
-        {{ currency }}
+        <Chip :text="chip" @action="() => currencySelected(chip)" />
       </li>
-    </ul>
+    </ScrollableList>
   </div>
 
-  <div class="button-wrapper">
-    <button
+  <div class="row mb10">
+
+    <ScrollableList :direction="'vertical'" :height="'400px'">
+      <li v-for="currency in allFiltered">
+        <CurrencyCard
+          :currency="currency"
+          :selected="selected.includes(currency)"
+          @click="() => currencySelected(currency)"/>
+      </li>
+    </ScrollableList>
+  </div>
+
+  <div class="row">
+    <Button
       @click="handleConfirmClick"
       :disabled="confirmDisabled">
       confirm
-    </button>
+    </Button>
   </div>
 </template>
 
@@ -54,7 +53,10 @@ import { useStore } from 'effector-vue/composition'
 import { useRouter } from 'vue-router'
 import ToolbarComponent from '@/components/ToolbarComponent.vue'
 import type { Currency } from '@/getRates'
-import CloseIcon from '@/components/CloseIcon.vue'
+import Chip from '@/components/Chip.vue'
+import ScrollableList from '@/components/ScrollableList.vue'
+import CurrencyCard from '@/components/CurrencyCard.vue'
+import Button from '@/components/Button.vue'
 
 const all = useStore($currencies)
 const selected = useStore($selectedCurrencies)
@@ -91,71 +93,9 @@ const handleConfirmClick = async () => {
   margin-bottom: 50px;
 }
 
-ul.chips {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  overflow-x: scroll;
-  width: 100%;
-  padding: 0;
-
-  li {
-    display: flex;
-    margin-right: 5px;
-
-    border: 1px solid gray;
-    color: white;
-    background: gray;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-right: 5px;
-    border-radius: 10px;
-
-    svg {
-      cursor: pointer; 
-    }
-  }
-}
-
 .row {
   display: flex;
   justify-content: center;
 }
 
-.wrapper {
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-ul.currencies {
-
-  padding: 0;
-  list-style: none;
-  overflow-y: scroll;
-  height: 400px;
-
-  li {
-    box-sizing: border-box;
-    cursor: pointer;
-    text-align: center;
-    margin-bottom: 10px;
-    width: 100px;
-  }
-
-  li:hover {
-    color: #6666CC;
-  }
-
-  li.selected {
-    border: 1px solid #6666CC;
-  }
-}
-
-.button-wrapper {
-  display: flex;
-  justify-content: center;
-}
-  
 </style>
