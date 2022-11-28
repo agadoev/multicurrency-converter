@@ -186,16 +186,16 @@ const wait = () => new Promise((resolve) => {
 })
 
 async function getRates(): Promise<Record<Currency, Rate>> {
-    // const response = await fetch("https://api.apilayer.com/exchangerates_data/latest", {
-    //     headers: {
-    //       apikey: "CwnvFPWnbgjkHocxDkJj3CdBO3eWTPr0"
-    //     }
-    // });
-    // const data = await response.json() as TResponse; 
-    // return data.rates;
+    const response = await fetch("https://api.apilayer.com/exchangerates_data/latest", {
+        headers: {
+            apikey: "CwnvFPWnbgjkHocxDkJj3CdBO3eWTPr0"
+        }
+    });
+    const data = await response.json() as TResponse;
+    return data.rates;
     // await wait()
 
-    return MockRates
+    //return MockRates
 }
 
 export default getRates;
