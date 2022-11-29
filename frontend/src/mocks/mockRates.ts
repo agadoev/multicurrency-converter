@@ -1,4 +1,4 @@
-import type { Currency, Rate } from "./getRates";
+import type { Currency, Rate } from "../getRates";
 
 export const MockRates: Record<Currency, Rate> = {
   "AED": 12,
