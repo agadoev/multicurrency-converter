@@ -3,14 +3,15 @@
     @click="() => emit('click')"
     :class="{selected: props.selected}"
     class="card hoverable clickable">
-    <div class="currency-flag" :class="{['currency-flag-' + props.currency.toLowerCase()]: true}"></div>
-    {{ props.currency }}
+    <CurrencyIcon :currency="currency" />
+    {{ currency }}
   </div>
 </template>
 
 
 <script setup lang="ts">
 import type { Currency } from '@/getRates';
+import CurrencyIcon from './CurrencyIcon.vue';
 
 const props = defineProps<{
   currency: Currency

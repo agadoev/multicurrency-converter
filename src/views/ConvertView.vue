@@ -3,24 +3,61 @@
   <ToolbarComponent style="margin-bottom: 50px;" /> 
 
   <main>
-    <div class="currency-input-wrapper" v-for="[currency, rate] of Object.entries(rates)" v-bind:key="currency">
-      <div class="currency-flag" :class="{['currency-flag-' + currency.toLowerCase()]: true}"></div>
-      <label for="">{{ currency }}</label>
-      <input
-        :value="(state.eur * rate).toFixed(0)"
-        type="number"
-        @input="(ev) => rateChanged(ev, rate)">
-    </div >
+    <ul  class="currency-list">
+      
+      <!-- IDR -->
+      <li class="currency-list-item">
+        <div class="currency-card active">
+          <CurrencyIcon class="currency-card-flag" :currency="'IDR'" />
+          <div class="currency-card-title">
+          <div class="currency-card-title-shorthand active">
+            IDR
+          </div>
+          Indonesian Rupiah
+          </div>
+
+
+          <div class="currency-card-amount active">
+            Rp 52.000
+          </div>
+        </div>
+      </li>
+
+      <div class="border">
+        <span></span>
+      </div>
+      
+      <!-- RUB -->
+      <li class="currency-list-item">
+        <div class="currency-card">
+          <CurrencyIcon class="currency-card-flag" :currency="'RUB'" />
+          <div class="currency-card-title">
+            <div class="currency-card-title-shorthand">
+              RUB
+            </div>
+          Russian ruble
+          </div>
+
+
+          <div class="currency-card-amount">
+            Р 159
+          </div>
+        </div>
+      </li>
+
+    </ul>
 
   </main>
 </template>
 
 <script setup lang="ts">
 import ToolbarComponent from '@/components/ToolbarComponent.vue'
-import { reactive, onBeforeMount } from 'vue';
+import { reactive, onBeforeMount } from 'vue'
+import CurrencyIcon from '@/components/CurrencyIcon.vue'
 
 import { convertPageOpened, $selectedRates, getRatesFx } from '@/logic'
 import { useStore } from 'effector-vue/composition';
+import type { Currency } from '@/getRates';
 
 onBeforeMount(convertPageOpened)
 
@@ -41,58 +78,73 @@ const rateChanged = (event: Event, coef: number) => {
 </script>
 
 <style scoped lang="scss">
-.currency-input-wrapper {
 
-  .currency-flag {
-    margin-right: 5px;
-  }
+$accent-color:#0A23FF;
+$secondary-color: #EBEDFF;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.currency-list {
 
-  margin-bottom: 20px;
+  list-style: none;
+  padding: 0;
 
-  label {
-    margin-right: 5px;
-  }
+  .border {
+    width: 100vw;
+    height: 0.5px;
+    display: flex;
+    justify-content: center;
+    border-radius: 0.2px;
 
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-      /* display: none; <- Crashes Chrome on hover */
-      -webkit-appearance: none;
-      margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-  }
-
-  input[type=number] {
-      -moz-appearance:textfield; /* Firefox */
-  }
-
-  input {
-    padding: 1px;
-    border: 1px solid #dadce0;
-    caret-color: #1a73e8;
-    color: #70757a;
-    border-radius: 6px;
-    -webkit-appearance: none;
-
-    background-color: #fff;
-    margin: 0;
-    overflow: hidden;
-    text-align: left;
-    line-height: 24px;
-    -moz-appearance: textfield;
-    padding: 1px 6px 1px 12px;
-    font-size: 16px;
-    font-family: arial,sans-serif;
-    height: 40px;
-    width: 150px;
-    color: #4d5156;
-
-    &:hover {
-      border: 1px solid black;   
+    span {
+      background: #CCC;
+      width: calc(100vw - 20px)
     }
   }
 
-} 
+  &-item {
+    &.active {
+      background: $secondary-color;
+    }
+  }
+}
+
+.currency-card {
+  display: flex;
+  align-items: center;
+  padding: 5px 15px;
+
+  &.active {
+    background: $secondary-color;
+  }
+
+  &-flag {
+    margin-right: 10px;
+  }
+
+  &-title {
+    
+    &-shorthand {
+      height: 12px;
+      color: lightgray;
+      font-size: 12px;
+      
+      &.active {
+        color: $accent-color;
+      }
+    }
+  }
+
+  &-amount {
+    position: absolute;
+    right: 10px;
+    background: $secondary-color;
+    color: $accent-color;
+    padding: 5px 10px;
+    border-radius: 6px;
+
+    &.active {
+      background: $accent-color;
+      color: white;
+    }
+  }
+}
 </style>
