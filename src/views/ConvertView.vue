@@ -1,17 +1,15 @@
 <template>
 
-  <ToolbarComponent /> 
+  <ToolbarComponent style="margin-bottom: 50px;" /> 
 
   <main>
-    <!-- <label for="">EUR</label> -->
-    <!-- <input v-model="state.eur" type="text"> -->
-    <br>
-    <br>
-
     <div class="currency-input-wrapper" v-for="[currency, rate] of Object.entries(rates)" v-bind:key="currency">
       <div class="currency-flag" :class="{['currency-flag-' + currency.toLowerCase()]: true}"></div>
       <label for="">{{ currency }}</label>
-      <input v-amount :value="state.eur * rate" type="number" @change="(ev) => rateChanged(ev, rate)">
+      <input
+        :value="(state.eur * rate).toFixed(0)"
+        type="number"
+        @input="(ev) => rateChanged(ev, rate)">
     </div >
 
   </main>

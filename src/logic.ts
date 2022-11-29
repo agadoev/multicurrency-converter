@@ -2,7 +2,7 @@ import { createStore, createEffect, createEvent, sample } from 'effector'
 import type { Currency, Rate } from './getRates';
 import getRates from './getRates';
 
-const LocalStorageKey = 'asdfsd';
+const LocalStorageKey = 'selected-currencies';
 
 const saveToLocalStorageFx = createEffect((selectedCurrencies: Currency[]) => {
   localStorage.setItem(LocalStorageKey, JSON.stringify(selectedCurrencies));
@@ -49,6 +49,8 @@ export const $selectedRates = createStore<Record<Currency, Rate> | {}>({});
 
 export const $errorOccured = createStore<boolean>(false)
 
+export const $ratesLoading = createStore<boolean>(false)
+
 
 /* events */
 export const currencySelected = createEvent<Currency>();
@@ -91,6 +93,12 @@ $rates
 $selectedCurrencies
   .on(currencySelected,
     (already, justNow) => addOrRemove<Currency>(already, justNow))
+
+$ratesLoading
+  .on(getRatesFx.pending, () => true)
+
+$ratesLoading
+  .on(getRatesFx.finally, () => false)
 
 sample({
   clock: currencySelected,
