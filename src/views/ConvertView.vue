@@ -103,9 +103,9 @@
 <script setup lang="ts">
 import ToolbarComponent from '@/components/ToolbarComponent.vue'
 import { reactive, onBeforeMount, ref } from 'vue'
-import CurrencyIcon from '@/components/CurrencyIcon.vue'
-import ConvertIcon from '@/components/ConvertIcon.vue'
-import BackSpaceIcon from '@/components/BackSpaceIcon.vue'
+import CurrencyIcon from '@/components/icons/Currency.vue'
+import ConvertIcon from '@/components/icons/Convert.vue'
+import BackSpaceIcon from '@/components/icons/BackSpace.vue'
 
 import {
   convertPageOpened,
@@ -162,7 +162,6 @@ const rateChanged = (event: Event, coef: number) => {
 }
 
 main {
-  /* height: calc(100vh - 200px); */
   overflow: hidden;
 }
 
