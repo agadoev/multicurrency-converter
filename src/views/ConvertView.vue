@@ -205,6 +205,7 @@ main {
     width: 100px;
     height: 100px;
     font-family: 'Roboto';
+    touch-action: manipulation;
     color: #132C77;
     background: #FFFFFF;
     border: none;
