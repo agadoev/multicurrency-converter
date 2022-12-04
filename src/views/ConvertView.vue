@@ -16,7 +16,7 @@
             </div>
 
 
-            <div :class="{'wide': keyboardOpened}" class="currency-card-amount" @click="() => openKeyboardClicked">
+            <div :class="{'wide': keyboardOpened}" class="currency-card-amount" @click="() => openKeyboardClicked()">
 
               <span class="currency-card-amount-input" v-show="keyboardOpened">
 
@@ -67,7 +67,7 @@
 
     <div class="slidable" :class="{'opened': keyboardOpened}">
       <div class="cancel">
-          <span @click="() => closeKeyboardClicked">
+          <span @click="() => closeKeyboardClicked()">
           Cancel
         </span>
       </div>
