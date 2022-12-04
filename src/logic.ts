@@ -4,6 +4,14 @@ import getRates from './getRates';
 
 const LocalStorageKey = 'selected-currencies';
 
+const removeLast = (str: string): string => {
+  if (str === '')
+    return str
+
+  return str.substring(0, str.length - 1);
+}
+
+
 const saveToLocalStorageFx = createEffect((selectedCurrencies: Currency[]) => {
   localStorage.setItem(LocalStorageKey, JSON.stringify(selectedCurrencies));
 })
@@ -47,25 +55,25 @@ export const $rates = createStore<Record<Currency, Rate> | {}>({})
 
 export const $selectedRates = createStore<Record<Currency, Rate> | {}>({})
 
-export const $errorOccured = createStore<boolean>(false)
+export const $editedCurrency = createStore<Currency | null>(null);
 
-export const $ratesLoading = createStore<boolean>(false)
-
-export const $keyboardOpened = createStore<boolean>(false)
+export const $inputedValue = createStore<string>('');
 
 
 /* events */
-export const currencySelected = createEvent<Currency>();
+export const convertPageOpened = createEvent<Currency[]>()
 
-export const convertPageOpened = createEvent<Currency[]>();
+export const confirmClicked = createEvent()
 
-export const confirmClicked = createEvent();
+export const userComes = createEvent()
 
-export const userComes = createEvent();
+export const closeKeyboardClicked = createEvent()
 
-export const openKeyboardClicked = createEvent();
+export const keyboardButtonClicked = createEvent<string>()
 
-export const closeKeyboardClicked = createEvent();
+export const currencyAmountClicked = createEvent<Currency>()
+
+export const backspaceClicked = createEvent()
 
 
 /* effects */
@@ -81,11 +89,20 @@ const selectedCurrenciesApplied = sample({
 
 /* logic */
 
-$keyboardOpened
-  .on(openKeyboardClicked, () => true)
+$editedCurrency
+  .on(closeKeyboardClicked, () => null)
 
-$keyboardOpened
-  .on(closeKeyboardClicked, () => false)
+$editedCurrency
+  .on(currencyAmountClicked, (_, currency) => currency)
+
+$inputedValue
+  .on(closeKeyboardClicked, () => '')
+
+$inputedValue
+  .on(keyboardButtonClicked, (value, newValue) => value + newValue)
+
+$inputedValue
+  .on(backspaceClicked, (value) => removeLast(value))
 
 // OK
 $currencies
@@ -100,23 +117,6 @@ $rates
 $rates
   .on(getRatesFx.fail,
     () => ({}))
-
-// OK
-$selectedCurrencies
-  .on(currencySelected,
-    (already, justNow) => addOrRemove<Currency>(already, justNow))
-
-$ratesLoading
-  .on(getRatesFx.pending, () => true)
-
-$ratesLoading
-  .on(getRatesFx.finally, () => false)
-
-sample({
-  clock: currencySelected,
-  source: $selectedCurrencies,
-  target: saveToLocalStorageFx
-})
 
 // OK
 sample({

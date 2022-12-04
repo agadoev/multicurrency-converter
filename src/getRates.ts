@@ -178,9 +178,9 @@ type TResponse = {
 }
 
 async function getRates(): Promise<Record<Currency, Rate>> {
-  // const response = await fetch("https://api.exchangerate.host/latest?base=EUR");
-  // const data = await response.json() as TResponse;
-  return MockRates;
+  const response = await fetch("https://api.exchangerate.host/latest?base=EUR");
+  const data = await response.json() as TResponse;
+  return data.rates;
 }
 
 export default getRates;

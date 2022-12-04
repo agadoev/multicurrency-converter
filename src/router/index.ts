@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import CurrencySelectView from '@/views/CurrencySelectView.vue'
 import ConvertView from '../views/ConvertView.vue'
 
 const router = createRouter({
