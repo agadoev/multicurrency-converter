@@ -1,6 +1,6 @@
 <template>
   <div
-    style="border-radius: 6px;"
+    style="border-radius: 4px;"
     class="currency-flag"
     :class="{['currency-flag-' + currency.toLowerCase()]: true}" />
 </template>

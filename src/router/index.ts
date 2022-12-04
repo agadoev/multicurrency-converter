@@ -8,14 +8,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'currencySelect',
-      component: CurrencySelectView
-    },
-    {
-      path: '/convert',
-      name: 'convert',
       component: ConvertView
     },
-
   ]
 })
 

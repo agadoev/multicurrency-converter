@@ -45,11 +45,13 @@ export const $selectedCurrencies = createStore<Currency[]>([])
 
 export const $rates = createStore<Record<Currency, Rate> | {}>({})
 
-export const $selectedRates = createStore<Record<Currency, Rate> | {}>({});
+export const $selectedRates = createStore<Record<Currency, Rate> | {}>({})
 
 export const $errorOccured = createStore<boolean>(false)
 
 export const $ratesLoading = createStore<boolean>(false)
+
+export const $keyboardOpened = createStore<boolean>(false)
 
 
 /* events */
@@ -60,6 +62,10 @@ export const convertPageOpened = createEvent<Currency[]>();
 export const confirmClicked = createEvent();
 
 export const userComes = createEvent();
+
+export const openKeyboardClicked = createEvent();
+
+export const closeKeyboardClicked = createEvent();
 
 
 /* effects */
@@ -74,6 +80,12 @@ const selectedCurrenciesApplied = sample({
 })
 
 /* logic */
+
+$keyboardOpened
+  .on(openKeyboardClicked, () => true)
+
+$keyboardOpened
+  .on(closeKeyboardClicked, () => false)
 
 // OK
 $currencies
