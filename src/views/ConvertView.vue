@@ -1,4 +1,5 @@
-<template> <div class="page-wrapper">
+<template>
+  <div class="page-wrapper">
 
     <ToolbarComponent style="margin-bottom: 50px;" /> 
 
@@ -60,10 +61,6 @@
         </li>
       </ul>
     </main>
-
-    <div class="slidable">
-      some
-    </div>
 
     <div class="slidable" :class="{'opened': keyboardOpened}">
       <div class="cancel">
@@ -165,7 +162,7 @@ const rateChanged = (event: Event, coef: number) => {
 }
 
 main {
-  height: calc(100vh - 100px);
+  /* height: calc(100vh - 200px); */
   overflow: hidden;
 }
 
@@ -184,13 +181,14 @@ main {
 .slidable {
   width: 100vw;
   background: transparent;
-  height: 100vh;
-  transform: translateY(0);
-  position: absolute;
+  height: 0;
+  bottom: 0;
+  position: fixed;
+
   transition-duration: 0.7s;
 
   &.opened {
-    transform: translateY(-422px);
+    height: 436px;
   }
 }
 
