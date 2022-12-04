@@ -7,7 +7,7 @@
       <div class="currency-card-title-shorthand">
         {{ props.currency }}
       </div>
-      {{ currencyInfo.currency }}
+      {{ currencyInfo?.currency }}
     </div>
 
 
@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import Currency from '@/getRates'
+import type { Currency } from '@/getRates'
 import CurrencyIcon from '@/components/icons/Currency.vue'
 import getSymbolFromCurrency from 'currency-symbol-map'
 import cc from 'currency-codes'
