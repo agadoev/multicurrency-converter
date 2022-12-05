@@ -8,17 +8,21 @@
       converter.
     </h2>
 
-    <div class="accent-color plus">
+    <div class="accent-color plus" @click="() => openSearchClicked()">
       +
     </div>
   </div>
 </template>
 
+<script lang="ts" setup>
+import { openSearchClicked } from '@/logic'
+
+</script>
+
 
 <style scoped lang="scss">
 .toolbar {
   height: 50px;
-  background: #F9F9F9;
   display: flex;
   justify-content: space-between;
   align-items: center;

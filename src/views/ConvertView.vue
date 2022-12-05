@@ -5,69 +5,53 @@
 
     <main>
       <ul  class="currency-list">
-        <li class="currency-list-item">
+        <li v-for="currency in currencies" class="currency-list-item">
           <CurrencyCard
-            :amount="'1 000 000'"
-            :currency="'IDR'" />
-        </li>
-
-        <div class="border">
-          <span></span>
-        </div>
-
-        <li class="currency-list-item">
-          <CurrencyCard
-            :amount="'15 550'"
-            :currency="'RUB'" />
-        </li>
-
-        <div class="border">
-          <span></span>
-        </div>
-        
-        <li class="currency-list-item">
-          <CurrencyCard
-            :amount="'249'"
-            :currency="'USD'" />
+            :amount="eur * safe(rates, currency)"
+            :currency="currency" />
         </li>
       </ul>
     </main>
 
     <Numpad />
 
+    <SearchView />
   </div>
 </template>
 
 <script setup lang="ts">
 import ToolbarComponent from '@/components/ToolbarComponent.vue'
-import { reactive, onBeforeMount } from 'vue'
+import { onBeforeMount } from 'vue'
 import CurrencyCard from '@/components/CurrencyCard.vue'
 import Numpad from '@/components/Numpad.vue'
+import SearchView from '@/views/SearchView.vue'
 
 import {
   convertPageOpened,
-  $selectedRates,
   getRatesFx,
+  $selectedCurrencies,
+  $rates,
+  $totalAmountEur
 } from '@/logic'
 import { useStore } from 'effector-vue/composition';
 import type { Currency } from '@/getRates';
+
+const safe = (rates: Record<Currency, number> | {}, currency: Currency): number => {
+  if (Object.keys(rates).length == 0) {
+    return 1
+  }
+
+  //@ts-ignore
+  return rates[currency];
+}
 
 onBeforeMount(convertPageOpened)
 
 onBeforeMount(getRatesFx)
 
-const rates = useStore($selectedRates)
-
-const state = reactive<{
-  eur: number,
-}>({
-  eur: 1,
-});
-
-const rateChanged = (event: Event, coef: number) => {
-  const amount = Number((event.target as HTMLInputElement).value);
-  state.eur = amount / coef;
-}
+const rates = useStore($rates)
+const currencies = useStore($selectedCurrencies)
+const eur = useStore($totalAmountEur)
 </script>
 
 <style scoped lang="scss">
@@ -84,6 +68,10 @@ main {
 
   list-style: none;
   padding: 0;
+
+  &-item {
+    margin-bottom: 15px;
+  }
 
   .border {
     width: 100vw;

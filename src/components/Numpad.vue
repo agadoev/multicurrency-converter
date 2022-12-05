@@ -10,7 +10,7 @@
       <div class="row">
         <button @click="() => keyboardButtonClicked('7')">7</button>
         <button @click="() => keyboardButtonClicked('8')">8</button>
-        <button @click="() => keyboardButtonClicked('8')">9</button>
+        <button @click="() => keyboardButtonClicked('9')">9</button>
       </div>
       <div class="row">
         <button @click="() => keyboardButtonClicked('4')">4</button>
@@ -27,7 +27,7 @@
           <BackSpaceIcon />
         </button>
         <button @click="() => keyboardButtonClicked('0')">0</button>
-        <button class="accent">
+        <button class="accent" @click="() => convertClicked()">
           <ConvertIcon />
         </button>
       </div>
@@ -40,6 +40,8 @@ import {
   closeKeyboardClicked,
   keyboardButtonClicked,
   $editedCurrency,
+  convertClicked,
+  $isKeyboardOpened,
   backspaceClicked
 } from '@/logic'
 import { computed } from 'vue'
@@ -48,8 +50,7 @@ import BackSpaceIcon from '@/components/icons/BackSpace.vue'
 import { useStore } from 'effector-vue/composition'
 
 const editedCurrency = useStore($editedCurrency)
-
-const keyboardOpened = computed(() => editedCurrency.value !== null)
+const keyboardOpened = useStore($isKeyboardOpened)
 </script>
 
 <style lang="scss">

@@ -20,12 +20,12 @@
         </span>
 
         <span v-show="inputedValue !== ''">
-          {{ inputedValue }}
+          {{ getSymbolFromCurrency(props.currency)}} {{ displayedInputed }}
         </span>
       </span>
 
       <span v-show="!edited">
-        {{ getSymbolFromCurrency(props.currency) }} {{ props.amount }}
+        {{ getSymbolFromCurrency(props.currency) }} {{ displayedAmount }}
       </span>
 
     </div>
@@ -39,19 +39,32 @@ import getSymbolFromCurrency from 'currency-symbol-map'
 import cc from 'currency-codes'
 import {
   currencyAmountClicked,
+  $isKeyboardOpened,
   $editedCurrency,
-  $inputedValue
+  $inputedValue,
 } from '@/logic'
-import { reactive, computed } from 'vue'
+import { reactive, computed, watch } from 'vue'
 import { useStore } from 'effector-vue/composition'
 
 const props = defineProps<{
   currency: Currency,
-  amount: string,
+  amount: number,
 }>()
 
 const editedCurrency = useStore($editedCurrency)
 const inputedValue = useStore($inputedValue)
+const keyboardOpened = useStore($isKeyboardOpened)
+
+
+function numberWithSpaces(x: number): string {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return parts.join(".");
+}
+
+const displayedAmount = computed(() => numberWithSpaces(props.amount.toFixed(2)))
+
+const displayedInputed = computed(() => numberWithSpaces(inputedValue.value))
 
 const state = reactive<{
   inputed: string
@@ -61,7 +74,7 @@ const state = reactive<{
   inputed: ''
 })
 
-const edited = computed<boolean>(() => editedCurrency.value == props.currency)
+const edited = computed<boolean>(() => editedCurrency.value == props.currency && keyboardOpened.value)
 
 const onAmountClicked = () => {
   currencyAmountClicked(props.currency)
@@ -92,7 +105,7 @@ const currencyInfo = cc.code(props.currency)
     
     &-shorthand {
       height: 12px;
-      color: lightgray;
+      color: #AEAEAE;
       font-size: 12px;
     }
   }
