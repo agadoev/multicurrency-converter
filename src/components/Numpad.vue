@@ -39,17 +39,14 @@
 import {
   closeKeyboardClicked,
   keyboardButtonClicked,
-  $editedCurrency,
   convertClicked,
   $isKeyboardOpened,
   backspaceClicked
 } from '@/logic'
-import { computed } from 'vue'
 import ConvertIcon from '@/components/icons/Convert.vue'
 import BackSpaceIcon from '@/components/icons/BackSpace.vue'
 import { useStore } from 'effector-vue/composition'
 
-const editedCurrency = useStore($editedCurrency)
 const keyboardOpened = useStore($isKeyboardOpened)
 </script>
 

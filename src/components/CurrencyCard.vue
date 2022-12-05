@@ -56,7 +56,7 @@ const inputedValue = useStore($inputedValue)
 const keyboardOpened = useStore($isKeyboardOpened)
 
 
-function numberWithSpaces(x: number): string {
+function numberWithSpaces(x: string): string {
     var parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     return parts.join(".");
