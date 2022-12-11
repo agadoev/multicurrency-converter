@@ -52,6 +52,7 @@ const keyboardOpened = useStore($isKeyboardOpened)
 
 <style lang="scss">
 .cancel {
+  background: white;
   display: flex;
   justify-content: end;
   padding: 10px 25px;

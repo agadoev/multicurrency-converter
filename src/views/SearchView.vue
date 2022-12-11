@@ -118,7 +118,7 @@ const filteredCurrencies = computed(
   height: 0;
   
   &.active {
-    height: 100vh;
+    height: 93vh;
   }
 }
 
