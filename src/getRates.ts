@@ -1,4 +1,4 @@
-import { MockRates } from '@/mocks/mockRates'
+import { mockRates } from '@/mocks/mockRates'
 
 export type Rate = number;
 
@@ -173,14 +173,10 @@ export type Currency =
   | "ZMW"
   | "ZWL"
 
-type TResponse = {
-  rates: Record<Currency, Rate>
-}
-
 async function getRates(): Promise<Record<Currency, Rate>> {
-  const response = await fetch("https://api.exchangerate.host/latest?base=EUR");
-  const data = await response.json() as TResponse;
-  return data.rates;
+  // const response = await fetch("https://api.exchangerate.host/latest?base=EUR");
+  // const data = await response.json() as TResponse;
+  return mockRates;
 }
 
 export default getRates;
