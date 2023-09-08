@@ -1,6 +1,6 @@
 import type { Currency, Rate } from "../getRates";
 
-export const MockRates: Record<Currency, Rate> = {
+export const mockRates: Record<Currency, Rate> = {
   "AED": 12,
   "AFN": 12,
   "ALL": 12,

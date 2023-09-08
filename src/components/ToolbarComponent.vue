@@ -1,9 +1,5 @@
 <template>
   <div class="toolbar">
-
-    <!-- <div class="accent-color edit"> -->
-    <!--   Edit -->
-    <!-- </div> -->
     <h2 class="toolbar-title">
       converter.
     </h2>

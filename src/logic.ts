@@ -1,57 +1,7 @@
 import { createStore, createEffect, createEvent, sample } from 'effector'
 import type { Currency, Rate } from './getRates';
+import { empty, removeLast, addOrRemove } from './utils'
 import getRates from './getRates';
-
-
-
-const empty = (value: any) => 
-  Object.keys(value).length == 0 ||
-  value == null || 
-  value == undefined
-
-const LocalStorageKey = 'selected-currencies';
-
-const removeLast = (str: string): string => {
-  if (str === '')
-    return str
-
-  return str.substring(0, str.length - 1);
-}
-
-
-const saveToLocalStorageFx = createEffect((selectedCurrencies: Currency[]) => {
-  localStorage.setItem(LocalStorageKey, JSON.stringify(selectedCurrencies));
-})
-
-function loadSelected(): Currency[] {
-  const source = localStorage.getItem(LocalStorageKey)
-
-  if (source) {
-    return JSON.parse(source)
-  }
-
-  return []
-}
-
-const loadFromLocalStorageFx = createEffect<void, Currency[]>(() => {
-  return loadSelected()
-})
-
-export const extract = (
-  obj: Record<string, unknown>,
-  keys: string[]): Record<string, unknown> => {
-
-  var entries = Object
-    .entries(obj)
-    .filter(([key, _]) => keys.includes(key))
-
-  return Object.fromEntries(entries)
-}
-
-const addOrRemove = <T>(arr: T[], item: T) =>
-  arr.includes(item)
-    ? arr.filter(i => i !== item)
-    : [...arr, item];
 
 /* stores */
 export const $currencies = createStore<Currency[]>([])
@@ -72,11 +22,8 @@ export const $totalAmountEur = createStore<number>(1)
 
 export const $isKeyboardOpened = createStore<boolean>(false)
 
-
 /* events */
-export const convertPageOpened = createEvent<Currency[]>()
-
-export const userComes = createEvent()
+export const convertPageOpened = createEvent()
 
 export const closeKeyboardClicked = createEvent()
 
@@ -98,12 +45,6 @@ export const convertClicked = createEvent<[number, number]>() // amount, coef
 /* effects */
 export const getRatesFx = createEffect<void, Record<Currency, number>>(async () => {
   return await getRates();
-})
-
-const selectedCurrenciesApplied = sample({
-  clock: loadFromLocalStorageFx.done,
-  source: { rates: $rates, selectedCurrencies: $selectedCurrencies },
-  fn: ({ rates, selectedCurrencies }) => extract(rates, selectedCurrencies)
 })
 
 /* logic */
@@ -171,10 +112,6 @@ const safe = (rates: Record<Currency, number> | {}, currency: Currency | null): 
 $totalAmountEur
   .on(convertDataCalculated,
       (_, { editedCurrency, rates, inputedValue }) => Number(inputedValue) / safe(rates, editedCurrency))
-
-$selectedRates
-  .on(selectedCurrenciesApplied,
-    (_, next) => ({ ...next }))
 
 $searchOpened
   .on(openSearchClicked, () => true)
